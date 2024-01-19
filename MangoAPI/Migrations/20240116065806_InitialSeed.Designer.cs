@@ -2,6 +2,7 @@
 using MangoAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MangoAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240116065806_InitialSeed")]
+    partial class InitialSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,20 +48,6 @@ namespace MangoAPI.Migrations
                             CouponCode = "10OFF",
                             DiscountAmount = 10.0,
                             MinAmount = 20
-                        },
-                        new
-                        {
-                            CouponId = 2,
-                            CouponCode = "20OFF",
-                            DiscountAmount = 20.0,
-                            MinAmount = 40
-                        },
-                        new
-                        {
-                            CouponId = 3,
-                            CouponCode = "30OFF",
-                            DiscountAmount = 30.0,
-                            MinAmount = 60
                         });
                 });
 #pragma warning restore 612, 618
