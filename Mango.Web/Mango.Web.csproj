@@ -12,11 +12,13 @@
     <None Remove="Utility\" />
     <None Remove="Service\" />
     <None Remove="Models\DTO\" />
+    <None Remove="Service\IService\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utility\" />
     <Folder Include="Service\" />
     <Folder Include="Models\DTO\" />
+    <Folder Include="Service\IService\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

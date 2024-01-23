@@ -1,7 +1,7 @@
 ﻿using System;
 using Mango.Web.Models;
 using Newtonsoft.Json;
-
+using Mango.Web.Service.IService;
 namespace Mango.Web.Service
 {
 	public class BaseService : IBaseService
