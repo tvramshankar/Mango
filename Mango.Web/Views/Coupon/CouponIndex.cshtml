@@ -1,0 +1,13 @@
+﻿@model ServiceResponce<List<CouponDTO>>
+@if (@Model.Data is not null && Model.IsSuccess)
+{
+    foreach (var item in Model.Data)
+    {
+        <div class="text-center">
+            <h1 class="display-4">@item.CouponCode.</h1>
+            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        </div>
+    }
+}
+
+

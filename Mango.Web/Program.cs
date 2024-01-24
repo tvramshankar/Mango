@@ -10,7 +10,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
-Mango.Web.Utility.StaticDetails.CouponAPIBase = builder.Configuration.GetSection("ServiceUrls:CouponAPI").ToString()!;
+Mango.Web.Utility.StaticDetails.CouponAPIBase = builder.Configuration.GetSection("ServiceUrls:CouponAPI").Value!;
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
