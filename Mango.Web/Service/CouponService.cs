@@ -26,7 +26,7 @@ namespace Mango.Web.Service
             return await _baseService.SendAsync(new ServiceRequest
             {
                 ApiType = Utility.StaticDetails.ApiType.GET,
-                Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/GetById",
+                Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/GetById/"+Id,
             });
         }
 
@@ -35,7 +35,7 @@ namespace Mango.Web.Service
             return await _baseService.SendAsync(new ServiceRequest
             {
                 ApiType = Utility.StaticDetails.ApiType.GET,
-                Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/GetByCode",
+                Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/GetByCode/"+couponId,
             });
         }
 
@@ -43,8 +43,9 @@ namespace Mango.Web.Service
         {
             return await _baseService.SendAsync(new ServiceRequest
             {
-                ApiType = Utility.StaticDetails.ApiType.GET,
+                ApiType = Utility.StaticDetails.ApiType.POST,
                 Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/AddCoupon",
+                Data = coupon,
             });
         }
 
@@ -52,8 +53,9 @@ namespace Mango.Web.Service
         {
             return await _baseService.SendAsync(new ServiceRequest
             {
-                ApiType = Utility.StaticDetails.ApiType.GET,
+                ApiType = Utility.StaticDetails.ApiType.PUT,
                 Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/UpdateCoupon",
+                Data = coupon,
             });
         }
 
@@ -61,8 +63,8 @@ namespace Mango.Web.Service
         {
             return await _baseService.SendAsync(new ServiceRequest
             {
-                ApiType = Utility.StaticDetails.ApiType.GET,
-                Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/DeleteCoupon",
+                ApiType = Utility.StaticDetails.ApiType.DELETE,
+                Url = Utility.StaticDetails.CouponAPIBase + "/api/CouponAPI/DeleteCoupon/"+Id,
             });
         }
     }

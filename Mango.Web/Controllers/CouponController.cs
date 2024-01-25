@@ -34,8 +34,62 @@ namespace Mango.Web.Controllers
             {
                 responceData.IsSuccess = false;
                 responceData.Message = ex.Message;
+                TempData["error"] = responceData.Message;
             }
             return View(responceData);
+        }
+
+        public async Task<IActionResult> CouponCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CouponCreate(CouponPostDTO couponPostDTO)
+        {
+            ServiceResponce<CouponPostDTO> responceData = new();
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    ServiceResponce<object> responce = await _couponService.CreateCouponAsync(couponPostDTO);
+                    if (responce is not null && responce.IsSuccess)
+                    {
+                        TempData["success"] = "Success";
+                        return RedirectToAction(nameof(CouponIndex));
+                    }
+                }
+                throw new Exception($"something went wrong at {nameof(CouponController)} at method {nameof(CouponCreate)} Post");
+            }
+            catch (Exception ex)
+            {
+                responceData.IsSuccess = false;
+                responceData.Message = ex.Message;
+                TempData["error"] = responceData.Message;
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> CouponDelete(int Id)
+        {
+            ServiceResponce<CouponDTO> responceData = new();
+            try
+            {
+                ServiceResponce<object> responce = await _couponService.DeleteCouponAsync(Id);
+                if (responce is not null && responce.IsSuccess)
+                {
+                    TempData["success"] = "Success";
+                    return RedirectToAction(nameof(CouponIndex));   
+                }
+                throw new Exception($"something went wrong at {nameof(CouponController)} at method {nameof(CouponCreate)} Delete");
+            }
+            catch(Exception ex)
+            {
+                responceData.IsSuccess = false;
+                responceData.Message = ex.Message;
+                TempData["error"] = responceData.Message;
+            }
+            return RedirectToAction(nameof(CouponIndex));
         }
     }
 }
