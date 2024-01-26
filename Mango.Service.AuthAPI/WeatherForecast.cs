@@ -1,4 +1,4 @@
-﻿namespace Mango.Services.AuthAPI;
+﻿namespace Mango.Service.AuthAPI;
 
 public class WeatherForecast
 {
