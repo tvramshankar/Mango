@@ -19,7 +19,7 @@ namespace Mango.Web.Service
             {
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Data = registrationRequestDTO,
-                Url = Utility.StaticDetails.CouponAPIBase + "/api/AuthAPI/AssignRole",
+                Url = Utility.StaticDetails.AuthAPIBase + "/api/AuthAPI/AssignRole",
             });
         }
 
@@ -29,7 +29,7 @@ namespace Mango.Web.Service
             {
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Data = loginRequestDTO,
-                Url = Utility.StaticDetails.CouponAPIBase + "/api/AuthAPI/Login",
+                Url = Utility.StaticDetails.AuthAPIBase + "/api/AuthAPI/Login",
             });
         }
 
@@ -39,7 +39,7 @@ namespace Mango.Web.Service
             {
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Data = registrationRequestDTO,
-                Url = Utility.StaticDetails.CouponAPIBase + "/api/AuthAPI/Register",
+                Url = Utility.StaticDetails.AuthAPIBase + "/api/AuthAPI/Register",
             });
         }
     }
