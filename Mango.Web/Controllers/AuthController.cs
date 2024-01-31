@@ -7,6 +7,7 @@ using Mango.Web.Models.DTO;
 using Mango.Web.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace Mango.Web.Controllers
 {
@@ -26,10 +27,20 @@ namespace Mango.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginRequestDTO loginRequestDTO)
+        public async Task<IActionResult> Login(LoginRequestDTO loginRequestDTO)
         {
-            //LoginRequestDTO loginRequestDTO = new();
-            return View(loginRequestDTO);
+            ServiceResponce<object> serviceResponce = await _authService.LoginAsync(loginRequestDTO);
+            if (serviceResponce.IsSuccess)
+            {
+                LoginResponceDTO loginResponceDTO = JsonConvert.DeserializeObject<LoginResponceDTO>(Convert
+                    .ToString(serviceResponce.Data)!)!;
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("CustomError", serviceResponce.Message);
+                return View(loginRequestDTO);
+            }
         }
 
         [HttpGet]
