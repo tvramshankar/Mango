@@ -46,7 +46,10 @@ namespace Mango.Web.Controllers
             }
             else
             {
-                ModelState.AddModelError("CustomError", serviceResponce.Message);
+                //for adding custom error to span in page, implementation for this is commented inside loginpage
+                // ModelState.AddModelError("CustomError", serviceResponce.Message);
+                // return View(loginRequestDTO);
+                TempData["error"] = serviceResponce.Message;
                 return View(loginRequestDTO);
             }
         }
@@ -77,6 +80,10 @@ namespace Mango.Web.Controllers
                     TempData["success"] = "Registration Successfull";
                     return RedirectToAction(nameof(Login));
                 }
+            }
+            else
+            {
+                TempData["error"] = serviceResponce.Message;
             }
             var roleList = new List<SelectListItem>()
             {
