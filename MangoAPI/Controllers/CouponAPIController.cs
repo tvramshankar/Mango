@@ -76,6 +76,7 @@ namespace MangoAPI.Controllers
 			return Ok(responce);
 		}
 		[HttpPost("AddCoupon")]
+		[Authorize(Roles ="ADMIN")]
 		public async Task<ActionResult<ServiceResponce<CouponDTO>>> AddCoupon(CouponPostDTO coupon)
 		{
 			var responce = new ServiceResponce<CouponDTO>();
@@ -96,6 +97,7 @@ namespace MangoAPI.Controllers
 			return Ok(responce);
 		}
 		[HttpPut("UpdateCoupon")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<ServiceResponce<CouponDTO>>> UpdateCoupon(CouponDTO coupon)
 		{
             var responce = new ServiceResponce<CouponDTO>();
@@ -123,7 +125,8 @@ namespace MangoAPI.Controllers
 			return Ok(responce);
         }
         [HttpDelete("DeleteCoupon/{Id}")]
-		public async Task<ActionResult<ServiceResponce<List<CouponDTO>>>> DeleteCoupon(int Id)
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<ServiceResponce<List<CouponDTO>>>> DeleteCoupon(int Id)
 		{
 			var responce = new ServiceResponce<List<CouponDTO>>();
 			try

@@ -85,7 +85,7 @@ namespace Mango.Web.Controllers
                     TempData["success"] = "Success";
                     return RedirectToAction(nameof(CouponIndex));   
                 }
-                throw new Exception($"something went wrong at {nameof(CouponController)} at method {nameof(CouponCreate)} Delete");
+                throw new Exception(responce!.Message);
             }
             catch(Exception ex)
             {
