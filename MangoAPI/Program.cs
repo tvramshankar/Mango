@@ -1,4 +1,5 @@
 ﻿using MangoAPI.Data;
+using MangoAPI.Extentions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -36,28 +37,8 @@ builder.Services.AddSwaggerGen(options=>
     });
 });
 
-var secret = builder.Configuration.GetSection("ApiSettings:Secret").Value;
-var issuer = builder.Configuration.GetSection("ApiSettings:Issuer").Value;
-var audience = builder.Configuration.GetSection("ApiSettings:Audience").Value;
+builder.AddAppAuthentication(); // moved authentication set of code from here to WebApplicationBuilderExtention custom class for refactoring and neet code
 
-var key = System.Text.Encoding.ASCII.GetBytes(secret!);
-
-builder.Services.AddAuthentication(optons =>
-{
-    optons.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    optons.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x=>
-{
-    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = true,
-        ValidIssuer = issuer,
-        ValidateAudience = true,
-        ValidAudience = audience
-    };
-});
 builder.Services.AddAuthorization();
 var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(ConnectionString!));
