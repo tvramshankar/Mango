@@ -6,10 +6,13 @@ using MangoAPI.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using MangoAPI.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+
 namespace MangoAPI.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
+	[Authorize]
 	public class CouponAPIController : ControllerBase
 	{
 		private readonly DataContext _dataContext;

@@ -4,7 +4,7 @@ namespace Mango.Web.Service.IService;
 
 	public interface IBaseService
 	{
-		Task<ServiceResponce<object>> SendAsync(ServiceRequest serviceRequest);
+		Task<ServiceResponce<object>> SendAsync(ServiceRequest serviceRequest, bool withBearer = true);
 	}
 
 
