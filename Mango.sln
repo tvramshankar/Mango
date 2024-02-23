@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthServices", "AuthService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Service.AuthAPI", "Mango.Service.AuthAPI\Mango.Service.AuthAPI.csproj", "{12CEE289-046A-480E-87EE-46732046855E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductServices", "ProductServices", "{568C6035-9DD8-4603-8A21-FE98DCD37568}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
