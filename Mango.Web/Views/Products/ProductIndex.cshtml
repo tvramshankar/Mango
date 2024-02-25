@@ -1,0 +1,78 @@
+﻿@model ServiceResponce<List<ProductsDTO>>
+@if (@Model.Data is not null && Model.IsSuccess)
+{
+    <div class="card shadow border-0 mt-4">
+        <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-white">Products List</h1>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="row pb-3">
+                <div class="col-6">
+
+                </div>
+                <div class="col-6 text-end">
+                    <a asp-action="ProductCreate" class="btn btn-outline-primary">
+                        <i class="bi bi-plus-square">Create Product</i>
+                    </a>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                @item.Name
+                            </td>
+
+                            <td>
+                                @item.CategoryName
+                            </td>
+
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                ₹@item.Price
+                            </td>
+                            <td>
+                                <a asp-action="ProductDelete" method="delete" asp-route-Id="@item.ProductId" class="btn btn-danger">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">No data found</h1>
+    </div>
+}
+
