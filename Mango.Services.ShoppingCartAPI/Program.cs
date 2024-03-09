@@ -47,8 +47,10 @@ builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(Connectio
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddHttpClient("Product", u => u.BaseAddress =
     new Uri(builder.Configuration.GetSection("ServiceUrls:ProductAPI").Value!));
+builder.Services.AddHttpClient("Coupon", u => u.BaseAddress =
+    new Uri(builder.Configuration.GetSection("ServiceUrls:CouponAPI").Value!));
 builder.Services.AddScoped<IProductService, ProductService>();
-
+builder.Services.AddScoped<ICouponService, CouponService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
