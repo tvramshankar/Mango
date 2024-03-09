@@ -1,5 +1,7 @@
 ﻿using Mango.Services.ShoppingCartAPI.Data;
 using Mango.Services.ShoppingCartAPI.Extentions;
+using Mango.Services.ShoppingCartAPI.Service;
+using Mango.Services.ShoppingCartAPI.Service.IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -43,6 +45,9 @@ builder.Services.AddAuthorization();
 var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(ConnectionString!));
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddHttpClient("Product", u => u.BaseAddress =
+    new Uri(builder.Configuration.GetSection("ServiceUrls:ProductAPI").Value!));
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

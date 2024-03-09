@@ -34,6 +34,8 @@
     <None Remove="Models\ResponseModel\" />
     <None Remove="Extentions\" />
     <None Remove="Data\" />
+    <None Remove="Service\" />
+    <None Remove="Service\IService\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -41,5 +43,7 @@
     <Folder Include="Models\ResponseModel\" />
     <Folder Include="Extentions\" />
     <Folder Include="Data\" />
+    <Folder Include="Service\" />
+    <Folder Include="Service\IService\" />
   </ItemGroup>
 </Project>

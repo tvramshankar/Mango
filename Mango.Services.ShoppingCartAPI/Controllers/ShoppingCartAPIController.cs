@@ -7,6 +7,7 @@ using Mango.Services.ShoppingCartAPI.Data;
 using Mango.Services.ShoppingCartAPI.Models;
 using Mango.Services.ShoppingCartAPI.Models.DTO;
 using Mango.Services.ShoppingCartAPI.Models.ResponseModel;
+using Mango.Services.ShoppingCartAPI.Service.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,40 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         private readonly ServiceResponce<object> _serviceResponce;
         private readonly IMapper _mapper;
         private readonly DataContext _dataContext;
+        private readonly IProductService _productService;
 
-        public ShoppingCartAPIController(IMapper mapper, DataContext dataContext)
+        public ShoppingCartAPIController(IMapper mapper, DataContext dataContext, IProductService productService)
         {
             _mapper = mapper;
             _dataContext = dataContext;
             _serviceResponce = new();
+            _productService = productService;
+        }
+
+        [HttpGet("GetCart/{userId}")]
+        public async Task<ActionResult<ServiceResponce<object>>> GetCart(string userId)
+        {
+            try
+            {
+                CartDTO cart = new()
+                {
+                    CartHeader = _mapper.Map<CartHeaderDTO>(await _dataContext.CartHeaders.FirstOrDefaultAsync(e => e.UserId == userId))
+                };
+                cart.CartDetails = _mapper.Map<IEnumerable<CartDetailsDTO>>(_dataContext.CartDetails.Where(e=> e.CartHeaderId == cart.CartHeader.CartHeaderId));
+                IEnumerable<ProductsDTO> products = await _productService.GetProducts();
+                foreach(var item in cart.CartDetails)
+                {
+                    item.Product = products.FirstOrDefault(e=> e.ProductId == item.ProductId);
+                    cart.CartHeader.CartTotal += (item.Count * item.Product!.Price);
+                }
+                _serviceResponce.Data = cart;
+            }
+            catch(Exception ex)
+            {
+                _serviceResponce.Message = ex.Message;
+                _serviceResponce.IsSuccess = false;
+            }
+            return Ok(_serviceResponce);
         }
 
         [HttpPost("CartUpsert")]
