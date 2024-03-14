@@ -36,6 +36,7 @@
     <None Remove="Data\" />
     <None Remove="Service\" />
     <None Remove="Service\IService\" />
+    <None Remove="Utility\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -45,5 +46,6 @@
     <Folder Include="Data\" />
     <Folder Include="Service\" />
     <Folder Include="Service\IService\" />
+    <Folder Include="Utility\" />
   </ItemGroup>
 </Project>

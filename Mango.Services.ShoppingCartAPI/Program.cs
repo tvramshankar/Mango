@@ -2,6 +2,7 @@
 using Mango.Services.ShoppingCartAPI.Extentions;
 using Mango.Services.ShoppingCartAPI.Service;
 using Mango.Services.ShoppingCartAPI.Service.IService;
+using Mango.Services.ShoppingCartAPI.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -45,10 +46,12 @@ builder.Services.AddAuthorization();
 var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options => options.UseMySQL(ConnectionString!));
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddHttpContextAccessor(); // to inject httpcontect accessor
+builder.Services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
 builder.Services.AddHttpClient("Product", u => u.BaseAddress =
-    new Uri(builder.Configuration.GetSection("ServiceUrls:ProductAPI").Value!));
+    new Uri(builder.Configuration.GetSection("ServiceUrls:ProductAPI").Value!)).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>(); // to add/set the token captured from http request to new http request to product api
 builder.Services.AddHttpClient("Coupon", u => u.BaseAddress =
-    new Uri(builder.Configuration.GetSection("ServiceUrls:CouponAPI").Value!));
+    new Uri(builder.Configuration.GetSection("ServiceUrls:CouponAPI").Value!)).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>(); /// to add/set the token captured from http request to new http request to product api
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 var app = builder.Build();

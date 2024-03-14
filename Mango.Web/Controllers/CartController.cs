@@ -26,6 +26,40 @@ namespace Mango.Web.Controllers
             return View(await LoadCartDtoBasedOnLoggedInUser());
         }
 
+        public async Task<IActionResult> Remove(int cartDetailsId)
+        {
+            ServiceResponce<object> response = await _cartService.RemoveCart(cartDetailsId);
+            if (response is not null && response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ApplyCoupon(CartDTO cart)
+        {
+            ServiceResponce<object> response = await _cartService.ApplyCoupon(cart);
+            if (response is not null && response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCoupon(CartDTO cart)
+        {
+            ServiceResponce<object> response = await _cartService.RemoveCoupon(cart);
+            if (response is not null && response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+            return View();
+        }
+
         private async Task<CartDTO> LoadCartDtoBasedOnLoggedInUser()
         {
             var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;

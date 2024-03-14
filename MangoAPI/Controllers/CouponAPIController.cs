@@ -12,6 +12,7 @@ namespace MangoAPI.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
+	[Authorize]
 	public class CouponAPIController : ControllerBase
 	{
 		private readonly DataContext _dataContext;

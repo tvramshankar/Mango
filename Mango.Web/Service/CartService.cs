@@ -19,7 +19,7 @@ namespace Mango.Web.Service
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Url = Utility.StaticDetails.ShoppingCartAPIBase + "/api/ShoppingCartAPI/ApplyCoupon",
                 Data = cartDTO
-            },false); //remove when auth is integrated
+            });
         }
 
         public async Task<ServiceResponce<object>> CartUpsert(CartDTO cartDTO)
@@ -29,7 +29,7 @@ namespace Mango.Web.Service
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Url = Utility.StaticDetails.ShoppingCartAPIBase + "/api/ShoppingCartAPI/CartUpsert",
                 Data = cartDTO
-            }, false);
+            });
         }
 
         public async Task<ServiceResponce<object>> GetCart(string userId)
@@ -38,7 +38,7 @@ namespace Mango.Web.Service
             {
                 ApiType = Utility.StaticDetails.ApiType.GET,
                 Url = Utility.StaticDetails.ShoppingCartAPIBase + "/api/ShoppingCartAPI/GetCart" + $"/{userId}",
-            }, false);
+            });
         }
 
         public async Task<ServiceResponce<object>> RemoveCart(int cartDetailsId)
@@ -48,7 +48,7 @@ namespace Mango.Web.Service
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Url = Utility.StaticDetails.ShoppingCartAPIBase + "/api/ShoppingCartAPI/RemoveCart",
                 Data = cartDetailsId
-            }, false);
+            });
         }
 
         public async Task<ServiceResponce<object>> RemoveCoupon(CartDTO cartDTO)
@@ -58,7 +58,7 @@ namespace Mango.Web.Service
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Url = Utility.StaticDetails.ShoppingCartAPIBase + "/api/ShoppingCartAPI/RemoveCoupon",
                 Data = cartDTO
-            }, false);
+            });
         }
     }
 }
