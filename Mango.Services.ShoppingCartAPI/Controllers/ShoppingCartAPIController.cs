@@ -102,7 +102,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                         .FirstOrDefaultAsync(u=> u.ProductId == cartDTO.CartDetails
                         .First()
                         .ProductId
-                        && u.CartHeaderId == cartDTO.CartHeader.CartHeaderId);
+                        && u.CartHeaderId == cartHeader.CartHeaderId);
                     if(cartDetails is null)
                     {
                         //create cartdetails
