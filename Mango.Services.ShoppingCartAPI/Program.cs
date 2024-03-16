@@ -1,4 +1,5 @@
-﻿using Mango.Services.ShoppingCartAPI.Data;
+﻿using Mango.MessageBus;
+using Mango.Services.ShoppingCartAPI.Data;
 using Mango.Services.ShoppingCartAPI.Extentions;
 using Mango.Services.ShoppingCartAPI.Service;
 using Mango.Services.ShoppingCartAPI.Service.IService;
@@ -54,6 +55,7 @@ builder.Services.AddHttpClient("Coupon", u => u.BaseAddress =
     new Uri(builder.Configuration.GetSection("ServiceUrls:CouponAPI").Value!)).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>(); /// to add/set the token captured from http request to new http request to product api
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IMessageBus, MessageBus>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -48,4 +48,9 @@
     <Folder Include="Service\IService\" />
     <Folder Include="Utility\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mango.MessageBus\Mango.MessageBus.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

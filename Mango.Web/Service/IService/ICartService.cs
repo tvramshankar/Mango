@@ -10,4 +10,5 @@ public interface ICartService
     Task<ServiceResponce<object>> RemoveCart(int cartDetailsId);
     Task<ServiceResponce<object>> ApplyCoupon(CartDTO cartDTO);
     Task<ServiceResponce<object>> RemoveCoupon(CartDTO cartDTO);
+    Task<ServiceResponce<object>> EmailCart(CartDTO cartDTO);
 }

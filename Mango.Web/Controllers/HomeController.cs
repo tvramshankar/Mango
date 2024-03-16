@@ -23,6 +23,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        if(User.Identity!.IsAuthenticated)
+        { 
         ServiceResponce<List<ProductsDTO>> responceData = new();
         try
         {
@@ -43,6 +45,8 @@ public class HomeController : Controller
             TempData["error"] = responceData.Message;
         }
         return View(responceData);
+        }
+        return RedirectToAction(nameof(Privacy));
     }
 
     [Authorize]
