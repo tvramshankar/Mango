@@ -24,25 +24,25 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="7.0.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Models\" />
-    <None Remove="Models\ResponseModel\" />
     <None Remove="Models\DTO\" />
+    <None Remove="Messaging\" />
+    <None Remove="Extentions\" />
+    <None Remove="Service\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Models\ResponseModel\" />
     <Folder Include="Models\DTO\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mango.MessageBus\Mango.MessageBus.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
+    <Folder Include="Messaging\" />
+    <Folder Include="Extentions\" />
+    <Folder Include="Service\" />
   </ItemGroup>
 </Project>
