@@ -23,14 +23,20 @@ namespace Mango.Services.EmailAPI.Service
             message.AppendLine("<br/>Total" + cartDto.CartHeader.CartTotal);
             message.Append("<br/>");
             message.Append("<ul>");
-            foreach(var item in cartDto.CartDetails)
+            foreach(var item in cartDto.CartDetails!)
             {
                 message.Append("<li>");
                 message.Append(item.Product!.Name + " x " + item.Count);
                 message.Append("</li>");
             }
             message.Append("</ul>");
-            await LogAndEmail(message.ToString(), cartDto.CartHeader.Email);
+            await LogAndEmail(message.ToString(), cartDto.CartHeader.Email!);
+        }
+
+        public async Task RegisterEmailAndLog(string email)
+        {
+            string message = "User registration successfull. </br> Email : " + email;
+            await LogAndEmail(message.ToString(), "ramshankar@gmail.com");
         }
 
         private async Task<bool> LogAndEmail(string message, string email)

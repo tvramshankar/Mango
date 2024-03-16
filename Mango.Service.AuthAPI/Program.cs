@@ -1,4 +1,5 @@
-﻿using Mango.Service.AuthAPI.Data;
+﻿using Mango.MessageBus;
+using Mango.Service.AuthAPI.Data;
 using Mango.Service.AuthAPI.Models;
 using Mango.Service.AuthAPI.Service;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IMessageBus, MessageBus>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
