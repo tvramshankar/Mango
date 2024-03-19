@@ -82,12 +82,23 @@ namespace MangoAPI.Controllers
 			var responce = new ServiceResponce<CouponDTO>();
 			try
 			{
-                var data = _autoMapper.Map<Coupon>(coupon);
+                var data = _autoMapper.Map<Models.Coupon>(coupon);
                 _dataContext.coupons.Add(data);
                 await _dataContext.SaveChangesAsync();
-                responce.Data = _autoMapper.Map<CouponDTO>(await _dataContext
-                    .coupons
-                    .FirstOrDefaultAsync(e => e.CouponId == data.CouponId));
+
+
+                //Stripe Coupon Create
+                var options = new Stripe.CouponCreateOptions
+				{
+					AmountOff = (long)coupon.DiscountAmount * 100,
+                    Name = coupon.CouponCode,
+					Currency = "usd",
+					Id = coupon.CouponCode,
+                };
+                var service = new Stripe.CouponService();
+                service.Create(options);
+
+                responce.Data = _autoMapper.Map<CouponDTO>(data);
             }
 			catch(Exception Ex)
 			{
@@ -136,7 +147,13 @@ namespace MangoAPI.Controllers
 					throw new Exception($"Coupon with CouponId {Id} not found");
 				_dataContext.coupons.Remove(data);
 				await _dataContext.SaveChangesAsync();
-				responce.Data = _autoMapper.Map<List<CouponDTO>>(_dataContext.coupons);
+
+
+				//Stripe Coupon delete
+                var service = new Stripe.CouponService();
+                await service.DeleteAsync(data.CouponCode);
+
+                responce.Data = _autoMapper.Map<List<CouponDTO>>(_dataContext.coupons);
 			}
 			catch (Exception Ex)
 			{

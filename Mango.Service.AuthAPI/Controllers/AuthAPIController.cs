@@ -8,6 +8,7 @@ using Mango.Service.AuthAPI.Models.ResponseModel;
 using Mango.Service.AuthAPI.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace Mango.Service.AuthAPI.Controllers
 {
@@ -36,6 +37,7 @@ namespace Mango.Service.AuthAPI.Controllers
                 _responceDTO.Message = errMessage;
                 return BadRequest(_responceDTO);
             }
+
             await _messageBus.PublishMessage(registrationRequestDTO.Email, _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue")!);
             return Ok(_responceDTO);
         }
