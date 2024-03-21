@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Mango.Services.EmailAPI.Data;
+using Mango.Services.EmailAPI.Message;
 using Mango.Services.EmailAPI.Models;
 using Mango.Services.EmailAPI.Models.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,16 @@ namespace Mango.Services.EmailAPI.Service
 	{
         private DbContextOptions<DataContext> _dbOptions;
 
-        public EmailService(DbContextOptions<DataContext> dbOptions)
+        public EmailService(DbContextOptions<DataContext> dbOptions) 
         {
             _dbOptions = dbOptions;
         }
+
+        //here DbContextOptions is used because
+        //we are using EmailService as services.addsigleton in program.cs
+        //so we cant use scopped dbcontext(dbcontext is scopped by default) in 
+        //singleton EmailService(we registed EmailService as singleton) so we
+        //are implementing like this using DbContextOptions
 
         public async Task EmailCartAndLog(CartDTO cartDto)
         {
@@ -31,6 +38,12 @@ namespace Mango.Services.EmailAPI.Service
             }
             message.Append("</ul>");
             await LogAndEmail(message.ToString(), cartDto.CartHeader.Email!);
+        }
+
+        public async Task LogOrderPlaced(RewardMessage rewardMessage)
+        {
+            string message = "New Order Placed. </br> Order ID : " + rewardMessage.OrderId;
+            await LogAndEmail(message.ToString(), "ramshankar@gmail.com");
         }
 
         public async Task RegisterEmailAndLog(string email)

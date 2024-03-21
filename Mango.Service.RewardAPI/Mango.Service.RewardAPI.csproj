@@ -30,21 +30,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Data\" />
     <None Remove="Models\" />
-    <None Remove="Models\DTO\" />
-    <None Remove="Messaging\" />
-    <None Remove="Extentions\" />
-    <None Remove="Service\" />
+    <None Remove="Data\" />
     <None Remove="Message\" />
+    <None Remove="Service\" />
+    <None Remove="Extentions\" />
+    <None Remove="Messaging\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Models\DTO\" />
-    <Folder Include="Messaging\" />
-    <Folder Include="Extentions\" />
-    <Folder Include="Service\" />
+    <Folder Include="Data\" />
     <Folder Include="Message\" />
+    <Folder Include="Service\" />
+    <Folder Include="Extentions\" />
+    <Folder Include="Messaging\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mango.MessageBus\Mango.MessageBus.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>
