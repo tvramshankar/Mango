@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Mango.Web.Models.DTO;
 
-namespace Mango.Web.Model.DTO
+namespace Mango.Web.Models.DTO
 {
 	public class OrderDetailsDTO
 	{

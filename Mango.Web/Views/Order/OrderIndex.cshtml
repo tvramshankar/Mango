@@ -1,0 +1,118 @@
+﻿
+@{
+            var status = Context.Request.Query["status"];
+            var approved = "";
+            var readyforpickup = "";
+            var cancelled = "";
+            var all = "";
+
+            switch(status)
+            {
+                case "approved":
+                    approved = "active text-white bg-secondary";
+                    break;
+                case "readyforpickup":
+                    readyforpickup = "active text-white bg-secondary";
+                    break;
+                case "Cancelled":
+                    cancelled = "active text-white bg-secondary";
+                    break;
+                default:
+                    all = "active text-white bg-secondary";
+                    break;
+            }
+        }
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3 d-flex justify-content-between">
+        <div class="row"> 
+            <h1 class="text-white">
+                Order List
+            </h1>
+        </div>
+        <ul class="list-group list-group-horizontal-sm pt-2">
+            <a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="approved">
+                <li class="list-group-item @approved">
+                    Approved
+                </li>
+            </a>
+            <a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="readyforpickup">
+            <li class="list-group-item @readyforpickup">
+                Ready For Pickup
+            </li>
+            </a>
+            <a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="Cancelled">
+            <li class="list-group-item @cancelled">
+                Cancelled
+            </li>
+            </a>
+            <a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="All">
+            <li class="list-group-item @all">
+                All
+            </li>
+            </a>
+        </ul>
+    </div>
+    <div class="card-body p-4">
+        <table id="tblData" class="table table-bordered table-striped pt-3" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = window.location.search;
+            if (url.includes("approved")) {
+                loadDataTable("approved");
+            }
+            else {
+                if (url.includes("readyforpickup")) {
+                    loadDataTable("readyforpickup");
+                }
+                else {
+                    if (url.includes("Cancelled")) {
+                        loadDataTable("Cancelled");
+                    }
+                    else {
+                        loadDataTable("all");
+                    }
+                }
+               
+            }
+           
+        });
+        function loadDataTable(status){
+            $("#tblData").DataTable({
+                order: [[0, 'desc']],
+                "ajax": {
+                    url: '/Order/GetAll?status=' + status +''
+                },
+                "columns": [
+                    { data: 'orderHeaderId', "width": "25%" },
+                    { data: 'email', "width": "25%" },
+                    { data: 'name', "width": "25%" },
+                    { data: 'phone', "width": "25%" },
+                    { data: 'status', "width": "25%" },
+                    { data: 'orderTotal', "width": "25%" },
+                    {
+                        data: 'orderHeaderId',
+                        "render": function (data) {
+                            return '<div class="w-75 btn-group" role="group"><a href="/order/orderDetail?orderId=' + data + '" class="btn btn-primary mx-2"><i class="fa fa-pencil"></i></a></div >';
+                        }
+                    }
+                ]
+            });
+        }
+    </script>
+}

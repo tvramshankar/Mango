@@ -4,7 +4,6 @@ using Mango.Service.AuthAPI.Models;
 using Mango.Service.AuthAPI.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Mango.Web.Model.DTO
+namespace Mango.Web.Models.DTO
 {
 	public class OrderHeaderDTO
 	{

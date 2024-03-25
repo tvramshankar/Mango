@@ -1,7 +1,4 @@
-﻿using System;
-using Mango.Web.Model.DTO;
-
-namespace Mango.Web.Models.DTO
+﻿namespace Mango.Web.Models.DTO
 {
 	public class StripeRequestDTO
 	{

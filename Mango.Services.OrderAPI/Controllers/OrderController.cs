@@ -14,6 +14,7 @@ using Mango.Services.OrderAPI.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
 
@@ -38,6 +39,57 @@ namespace Mango.Services.OrderAPI.Controllers
             _serviceResponce = new();
             _messageBus = messageBus;
             _configuration = configuration;
+        }
+
+        [Authorize]
+        [HttpGet("GetOrdersByUserId/{userId}")]
+        public async Task<ActionResult<ServiceResponce<object>>> GetOrdersByUserId(string userId="")
+        {
+            try
+            {
+                IEnumerable<OrderHeader> orderHeaders;
+                if (User.IsInRole(StaticDetails.RoleAdmin))
+                {
+                    orderHeaders = await _dataContext.OrderHeaders
+                        .Include(u => u.orderDetails)
+                        .OrderByDescending(u => u.OrderHeaderId).ToListAsync();
+                    _serviceResponce.Data = orderHeaders;
+                }
+                else
+                {
+                    orderHeaders = await _dataContext.OrderHeaders
+                        .Include(u => u.orderDetails)
+                        .Where(u => u.UserId == userId)
+                        .OrderByDescending(u => u.OrderHeaderId).ToListAsync();
+                    _serviceResponce.Data = orderHeaders;
+                }
+            }
+            catch(Exception ex)
+            {
+                _serviceResponce.IsSuccess = false;
+                _serviceResponce.Message = ex.Message;
+            }
+            return _serviceResponce;
+        }
+
+
+        [Authorize]
+        [HttpGet("GetOrdersByOrderId/{orderId}")]
+        public async Task<ActionResult<ServiceResponce<object>>> GetOrdersByOrderId(int orderId)
+        {
+            try
+            {
+                OrderHeader orderHeader = _dataContext.OrderHeaders
+                    .Include(u => u.orderDetails)
+                    .First(u => u.OrderHeaderId == orderId);
+                _serviceResponce.Data = orderHeader;
+            }
+            catch (Exception ex)
+            {
+                _serviceResponce.IsSuccess = false;
+                _serviceResponce.Message = ex.Message;
+            }
+            return _serviceResponce;
         }
 
         [Authorize]
@@ -164,6 +216,39 @@ namespace Mango.Services.OrderAPI.Controllers
             {
                 _serviceResponce.IsSuccess = false;
                 _serviceResponce.Message = ex.Message;
+            }
+            return _serviceResponce;
+        }
+
+        [Authorize]
+        [HttpPost("UpdateOrderStatus/{orderId}")]
+        public async Task<ActionResult<ServiceResponce<object>>> UpdateOrderStatus(int orderId, [FromBody] string newStatus)
+        {
+            try
+            {
+                OrderHeader orderHeader = _dataContext.OrderHeaders.First(u => u.OrderHeaderId == orderId);
+                if(orderHeader is not null)
+                {
+                    if(newStatus == StaticDetails.Status_Cancelled)
+                    {
+                        //we will gice refund
+                        var options = new RefundCreateOptions
+                        {
+                            Reason = RefundReasons.RequestedByCustomer,
+                            PaymentIntent = orderHeader.PaymentIntentId,
+                        };
+
+                        var service = new RefundService();
+                        Refund refund = await service.CreateAsync(options);
+                    }
+                    orderHeader.Status = newStatus;
+                    await _dataContext.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                _serviceResponce.Message = ex.Message;
+                _serviceResponce.IsSuccess = false;
             }
             return _serviceResponce;
         }

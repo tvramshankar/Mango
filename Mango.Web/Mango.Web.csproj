@@ -18,6 +18,7 @@
     <None Remove="Views\Products\" />
     <None Remove="Views\Cart\" />
     <None Remove="Assest\" />
+    <None Remove="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utility\" />
@@ -29,6 +30,7 @@
     <Folder Include="Views\Products\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Assest\" />
+    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

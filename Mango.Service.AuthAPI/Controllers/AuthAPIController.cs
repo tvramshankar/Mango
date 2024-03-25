@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Mango.MessageBus;
 using Mango.Service.AuthAPI.Models.DTO;
 using Mango.Service.AuthAPI.Models.ResponseModel;
 using Mango.Service.AuthAPI.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Stripe;
 
 namespace Mango.Service.AuthAPI.Controllers
 {
