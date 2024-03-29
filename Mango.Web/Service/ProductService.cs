@@ -37,6 +37,7 @@ namespace Mango.Web.Service
                 ApiType = Utility.StaticDetails.ApiType.POST,
                 Url = Utility.StaticDetails.ProductAPIBase + "/api/ProductsAPI/AddProduct",
                 Data = product,
+                ContentType = Utility.StaticDetails.ContentType.MultipartFormData
             });
         }
 
@@ -47,6 +48,7 @@ namespace Mango.Web.Service
                 ApiType = Utility.StaticDetails.ApiType.PUT,
                 Url = Utility.StaticDetails.ProductAPIBase + "/api/ProductsAPI/UpdateProduct",
                 Data = product,
+                ContentType = Utility.StaticDetails.ContentType.MultipartFormData
             });
         }
 

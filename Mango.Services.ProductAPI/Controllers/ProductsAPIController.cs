@@ -66,17 +66,35 @@ namespace Mango.Services.ProductAPI.Controllers
 
         [HttpPost("AddProduct")]
         [Authorize(Roles = "ADMIN")]
-        public async Task<ActionResult<ServiceResponce<ProductsDTO>>> AddProduct(ProductPostDTO products)
+        public async Task<ActionResult<ServiceResponce<ProductsDTO>>> AddProduct([FromForm] ProductPostDTO products)
         {
             var responce = new ServiceResponce<ProductsDTO>();
             try
             {
-                var data = _autoMapper.Map<Product>(products);
-                _dataContext.products.Add(data);
+                var product = _autoMapper.Map<Product>(products);
+                _dataContext.products.Add(product);
                 await _dataContext.SaveChangesAsync();
-                responce.Data = _autoMapper.Map<ProductsDTO>(await _dataContext
-                    .products
-                    .FirstOrDefaultAsync(e => e.ProductId == data.ProductId));
+                if(products.Image is not null)
+                {
+                    string fileName = product.ProductId + Path.GetExtension(products.Image.FileName);
+                    string filePath = @"wwwroot/ProductImages/" + fileName;
+                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                    using (var fileStream = new FileStream(filePathDirectory,FileMode.Create))
+                    {
+                        await products.Image.CopyToAsync(fileStream);
+                    }
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    product.ImageLocalPath = filePath;
+                    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+                }
+                else
+                {
+                    product.ImageUrl = "https://placehold.co/600x400";
+                }
+
+                _dataContext.products.Update(product);
+                await _dataContext.SaveChangesAsync();
+                responce.Data = _autoMapper.Map<ProductsDTO>(product);
             }
             catch (Exception Ex)
             {
@@ -96,11 +114,35 @@ namespace Mango.Services.ProductAPI.Controllers
                 var data = await _dataContext.products.FirstOrDefaultAsync(e => e.ProductId == product.ProductId);
                 if (data is null)
                     throw new Exception($"Product with ProductId {product.ProductId} not found");
+
+                if (product.Image is not null)
+                {
+                    if (!string.IsNullOrEmpty(data!.ImageLocalPath))
+                    {
+                        var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), data.ImageLocalPath);
+                        FileInfo file = new FileInfo(oldFilePathDirectory);
+                        if (file.Exists)
+                        {
+                            file.Delete();
+                        }
+                    }
+                    string fileName = data.ProductId + Path.GetExtension(product.Image.FileName);
+                    string filePath = @"wwwroot\ProductImages\" + fileName;
+                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+                    {
+                        product.Image.CopyTo(fileStream);
+                    }
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    data.ImageLocalPath = filePath;
+                    data.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+                }
+
                 //var isCaching = _dataContext.coupons.Local.FirstOrDefault(e => e.CouponId == coupon.CouponId);
                 //if(isCaching is not null)
                 //	_dataContext.Entry(data).State = EntityState.Detached;
                 //_dataContext.coupons.Update(_autoMapper.Map<Coupon>(coupon));
-                data.ImageUrl = product.ImageUrl;
+
                 data.Name = product.Name;
                 data.Price = product.Price;
                 data.Description = product.Description;
@@ -125,6 +167,15 @@ namespace Mango.Services.ProductAPI.Controllers
             try
             {
                 var data = await _dataContext.products.FirstOrDefaultAsync(e => e.ProductId == Id);
+                if(!string.IsNullOrEmpty(data!.ImageLocalPath))
+                {
+                    var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), data.ImageLocalPath);
+                    FileInfo file = new FileInfo(oldFilePathDirectory);
+                    if(file.Exists)
+                    {
+                        file.Delete();
+                    }
+                }
                 if (data is null)
                     throw new Exception($"Product with ProductId {Id} not found");
                 _dataContext.products.Remove(data);

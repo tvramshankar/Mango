@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Mango.Web.Utility;
 using static Mango.Web.Utility.StaticDetails;
 namespace Mango.Web.Models
 {
@@ -8,6 +8,7 @@ namespace Mango.Web.Models
 		public string Url { get; set; } = string.Empty;
 		public object? Data { get; set; }
 		public string AccessToken { get; set; } = string.Empty;
-	}
+		public ContentType ContentType { get; set; } = StaticDetails.ContentType.Json;
+    }
 }
 

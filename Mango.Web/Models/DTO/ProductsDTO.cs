@@ -13,6 +13,7 @@ namespace Mango.Web.Models.DTO
         public string ImageUrl { get; set; } = string.Empty;
         [Range(1,100)]
         public int ProductCount { get; set; } = 1;
+        public string ImageLocalPath { get; set; } = string.Empty;
     }
 }
 
