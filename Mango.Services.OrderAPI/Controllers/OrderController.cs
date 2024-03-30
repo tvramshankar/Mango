@@ -43,7 +43,7 @@ namespace Mango.Services.OrderAPI.Controllers
 
         [Authorize]
         [HttpGet("GetOrdersByUserId/{userId}")]
-        public async Task<ActionResult<ServiceResponce<object>>> GetOrdersByUserId(string userId="")
+        public async Task<ActionResult<ServiceResponce<object>>> GetOrdersByUserId(string? userId="")
         {
             try
             {

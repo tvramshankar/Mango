@@ -80,11 +80,7 @@ namespace Mango.Web.Controllers
         public async Task<IActionResult> GetAll(string status)
         {
             IEnumerable<OrderHeaderDTO> orderHeaderDTOs;
-            string userId = "";
-            if(User.IsInRole(StaticDetails.RoleAdmin))
-            {
-                userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value!;
-            }
+            string userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value!;
             ServiceResponce<object> serviceResponce = await _orderService.GetOrdersByUserId(userId);
             if(serviceResponce is not null && serviceResponce.IsSuccess)
             {
